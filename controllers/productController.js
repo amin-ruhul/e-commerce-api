@@ -16,6 +16,33 @@ const getProducts = async (req, res, next) => {
   }
 };
 
+// get single product from database
+
+const getSingleProduct = async (req, res, next) => {
+  try {
+    const product = await Product.findById(req.params.id);
+
+    // product not found response
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        message: "Product Not Found",
+      });
+    }
+
+    // success response
+    res.status(200).json({
+      success: true,
+      data: product,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 // insert single product into Database
 const InsertProduct = async (req, res, next) => {
   try {
@@ -35,4 +62,5 @@ const InsertProduct = async (req, res, next) => {
 module.exports = {
   getProducts,
   InsertProduct,
+  getSingleProduct,
 };
