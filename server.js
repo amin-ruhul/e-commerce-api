@@ -2,6 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const productRoute = require("./routes/productRoute");
 const DB_connection = require("./config/db");
+const globalErrorHandler = require("./middlewares/errors");
 
 // load config file
 dotenv.config({ path: "./config/config.env" });
@@ -23,7 +24,9 @@ const server = app.listen(PORT, () =>
 // handle unhandle promise rejection
 process.on("unhandledRejection", (err, promise) => {
   console.log(`Error: ${err.message}`);
-
   // exit the server
   server.close(() => process.exit(1));
 });
+
+// global error handler
+app.use(globalErrorHandler);
