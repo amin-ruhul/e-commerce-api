@@ -5,6 +5,7 @@ const {
   InsertProduct,
   getSingleProduct,
   updateProduct,
+  deleteProduct,
 } = require("../controllers/productController");
 
 // create route object
@@ -21,5 +22,8 @@ route.post("/product", InsertProduct);
 
 // update product
 route.put("/product/:id", updateProduct);
+
+// delete product
+route.delete("/product/:id", deleteProduct);
 
 module.exports = route;

@@ -93,9 +93,38 @@ const updateProduct = async (req, res, next) => {
   }
 };
 
+// delete product
+
+const deleteProduct = async (req, res, next) => {
+  try {
+    let product = await Product.findById(req.params.id);
+
+    // check product is existed
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        message: "Product Not Found",
+      });
+    }
+
+    // delete product
+    await product.remove();
+    res.status(200).json({
+      success: true,
+      data: "Product Deleted",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   getProducts,
   InsertProduct,
   getSingleProduct,
   updateProduct,
+  deleteProduct,
 };
