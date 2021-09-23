@@ -4,6 +4,7 @@ const {
   getProducts,
   InsertProduct,
   getSingleProduct,
+  updateProduct,
 } = require("../controllers/productController");
 
 // create route object
@@ -17,5 +18,8 @@ route.get("/product/:id", getSingleProduct);
 
 // insert product into database
 route.post("/product", InsertProduct);
+
+// update product
+route.put("/product/:id", updateProduct);
 
 module.exports = route;
