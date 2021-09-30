@@ -1,10 +1,12 @@
 const Product = require("../models/Product");
 const ErrorHandler = require("../utils/ErrorHandler");
+const APIFeatures = require("../utils/APIFeatures");
 
 // get all product from database
 const getProducts = async (req, res, next) => {
   try {
-    const products = await Product.find();
+    const apiFeatures = new APIFeatures(Product.find(), req.query).search();
+    const products = await apiFeatures.query;
     res.status(200).json({
       success: true,
       data: products,
