@@ -4,6 +4,12 @@ const productRoute = require("./routes/productRoute");
 const DB_connection = require("./config/db");
 const globalErrorHandler = require("./middlewares/errors");
 
+// handle uncaught exception
+process.on("uncaughtException", (err) => {
+  console.log(err.message);
+  process.exit(1);
+});
+
 // load config file
 dotenv.config({ path: "./config/config.env" });
 const app = express();
