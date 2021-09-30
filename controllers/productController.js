@@ -5,7 +5,9 @@ const APIFeatures = require("../utils/APIFeatures");
 // get all product from database
 const getProducts = async (req, res, next) => {
   try {
-    const apiFeatures = new APIFeatures(Product.find(), req.query).search();
+    const apiFeatures = new APIFeatures(Product.find(), req.query)
+      .search()
+      .filter();
     const products = await apiFeatures.query;
     res.status(200).json({
       success: true,
