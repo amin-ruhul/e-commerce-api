@@ -4,6 +4,8 @@ const globalErrorHandler = (err, req, res, next) => {
   let error = { ...err };
   error.message = err.message;
 
+  console.log(error);
+
   // id is not match error
   if (err.name === "CastError") {
     const message = `Resource not found with id of ${err.value}`;
@@ -12,7 +14,7 @@ const globalErrorHandler = (err, req, res, next) => {
 
   // duplicate key error
   if (err.code === 11000) {
-    const message = `Email already existed`;
+    const message = ` already existed`;
     error = new ErrorHandler(message, 400);
   }
 

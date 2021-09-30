@@ -1,4 +1,5 @@
 const Product = require("../models/Product");
+const ErrorHandler = require("../utils/ErrorHandler");
 
 // get all product from database
 const getProducts = async (req, res, next) => {
@@ -9,10 +10,7 @@ const getProducts = async (req, res, next) => {
       data: products,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    next(error);
   }
 };
 
@@ -24,10 +22,7 @@ const getSingleProduct = async (req, res, next) => {
 
     // product not found response
     if (!product) {
-      return res.status(404).json({
-        success: false,
-        message: "Product Not Found",
-      });
+      return next(new ErrorHandler("Product Not Found", 404));
     }
 
     // success response
@@ -36,10 +31,7 @@ const getSingleProduct = async (req, res, next) => {
       data: product,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    next(error);
   }
 };
 
@@ -52,10 +44,7 @@ const InsertProduct = async (req, res, next) => {
       data: product,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    next(error);
   }
 };
 
@@ -67,10 +56,7 @@ const updateProduct = async (req, res, next) => {
 
     // check product is existed
     if (!product) {
-      return res.status(404).json({
-        success: false,
-        message: "Product Not Found",
-      });
+      return next(new ErrorHandler("Product Not Found", 404));
     }
 
     // update product
@@ -86,10 +72,7 @@ const updateProduct = async (req, res, next) => {
       data: product,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    next(error);
   }
 };
 
@@ -101,10 +84,7 @@ const deleteProduct = async (req, res, next) => {
 
     // check product is existed
     if (!product) {
-      return res.status(404).json({
-        success: false,
-        message: "Product Not Found",
-      });
+      return next(new ErrorHandler("Product Not Found", 404));
     }
 
     // delete product
@@ -114,10 +94,7 @@ const deleteProduct = async (req, res, next) => {
       data: "Product Deleted",
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    next(error);
   }
 };
 
