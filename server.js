@@ -1,6 +1,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const productRoute = require("./routes/productRoute");
+const userRoute = require("./routes/userRoute");
 const DB_connection = require("./config/db");
 const globalErrorHandler = require("./middlewares/errors");
 
@@ -20,6 +21,7 @@ DB_connection();
 
 // routes
 app.use("/api", productRoute);
+app.use("/api/user", userRoute);
 
 // const config server
 const PORT = process.env.PORT || 5000;
