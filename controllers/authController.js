@@ -3,6 +3,20 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const ErrorHandler = require("../utils/ErrorHandler");
 
+// get logged in user
+const loggedInUser = async (req, res, next) => {
+  try {
+    console.log(req.user);
+    const user = await User.findOne({ _id: req.user.id }).select("-password");
+    res.status(200).json({
+      success: true,
+      user: user,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 // login user
 const login = async (req, res, next) => {
   try {
@@ -39,4 +53,5 @@ const login = async (req, res, next) => {
 
 module.exports = {
   login,
+  loggedInUser,
 };
