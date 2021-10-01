@@ -14,7 +14,7 @@ const globalErrorHandler = (err, req, res, next) => {
 
   // duplicate key error
   if (err.code === 11000) {
-    const message = ` already existed`;
+    const message = ` User already existed`;
     error = new ErrorHandler(message, 400);
   }
 
