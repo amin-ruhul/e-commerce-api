@@ -20,7 +20,7 @@ route.get("/products", protect, authorizeRole("admin"), getProducts);
 route.get("/product/:id", getSingleProduct);
 
 // insert product into database
-route.post("/product", InsertProduct);
+route.post("/product", protect, InsertProduct);
 
 // update product
 route.put("/product/:id", updateProduct);
