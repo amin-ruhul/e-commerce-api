@@ -5,7 +5,7 @@ const {
   loggedInUser,
   logout,
 } = require("../controllers/authController");
-const { protect } = require("../middlewares/auth");
+const { protect, forgotPassword } = require("../middlewares/auth");
 
 const route = express.Router();
 
@@ -14,6 +14,8 @@ route.post("/register", registerUser);
 
 // login user
 route.post("/login", login);
+
+route.post("/forgot/password", forgotPassword);
 
 // load logged in user
 route.get("/", protect, loggedInUser);
