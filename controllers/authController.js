@@ -1,6 +1,4 @@
 const User = require("../models/User");
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
 const ErrorHandler = require("../utils/ErrorHandler");
 
 // get logged in user
@@ -29,19 +27,12 @@ const login = async (req, res, next) => {
     if (!user) return next(new ErrorHandler("User is not existed", 401));
 
     // check password is ok or not
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await user.PasswordMatch(password);
     if (!isMatch) return next(new ErrorHandler("Password is not match", 401));
 
     // generate token
-    const payload = {
-      user: {
-        id: user._id,
-      },
-    };
+    const token = user.getJwtToken();
 
-    const token = await jwt.sign(payload, process.env.JWT_SECRET, {
-      expiresIn: 3600,
-    });
     res.status(200).json({
       success: true,
       token: token,
