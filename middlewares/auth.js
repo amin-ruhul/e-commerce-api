@@ -1,6 +1,8 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const ErrorHandler = require("../utils/ErrorHandler");
+
+// protected middleware
 const protect = async (req, res, next) => {
   try {
     let token;
@@ -21,4 +23,15 @@ const protect = async (req, res, next) => {
   }
 };
 
-module.exports = protect;
+// create authorize middleware
+
+const authorizeRole = (...roles) => {
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      return next(new ErrorHandler("Access denied", 403));
+    }
+    next();
+  };
+};
+
+module.exports = { protect, authorizeRole };

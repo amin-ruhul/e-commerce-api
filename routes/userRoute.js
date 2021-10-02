@@ -5,7 +5,7 @@ const {
   loggedInUser,
   logout,
 } = require("../controllers/authController");
-const protect = require("../middlewares/auth");
+const { protect } = require("../middlewares/auth");
 
 const route = express.Router();
 

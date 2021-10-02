@@ -8,11 +8,13 @@ const {
   deleteProduct,
 } = require("../controllers/productController");
 
+const { protect, authorizeRole } = require("../middlewares/auth");
+
 // create route object
 const route = express.Router();
 
 //  get all product from database
-route.get("/products", getProducts);
+route.get("/products", protect, authorizeRole("admin"), getProducts);
 
 // get single product from database
 route.get("/product/:id", getSingleProduct);
