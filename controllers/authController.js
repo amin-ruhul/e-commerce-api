@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const ErrorHandler = require("../utils/ErrorHandler");
+const tokenResponse = require("../utils/tokenResponse");
 
 // get logged in user
 const loggedInUser = async (req, res, next) => {
@@ -31,12 +32,7 @@ const login = async (req, res, next) => {
     if (!isMatch) return next(new ErrorHandler("Password is not match", 401));
 
     // generate token
-    const token = user.getJwtToken();
-
-    res.status(200).json({
-      success: true,
-      token: token,
-    });
+    tokenResponse(user, 200, res);
   } catch (error) {
     next(error);
   }

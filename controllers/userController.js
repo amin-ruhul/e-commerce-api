@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const ErrorHandler = require("../utils/ErrorHandler");
+const tokenResponse = require("../utils/tokenResponse");
 
 const registerUser = async (req, res, next) => {
   try {
@@ -22,13 +23,8 @@ const registerUser = async (req, res, next) => {
       },
     });
 
-    // create token
-    const token = newUser.getJwtToken();
-
-    res.status(200).json({
-      success: true,
-      token: token,
-    });
+    // create token and send response
+    tokenResponse(newUser, 200, res);
   } catch (error) {
     next(error);
   }
