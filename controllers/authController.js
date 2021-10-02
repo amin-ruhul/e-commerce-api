@@ -5,11 +5,9 @@ const tokenResponse = require("../utils/tokenResponse");
 // get logged in user
 const loggedInUser = async (req, res, next) => {
   try {
-    console.log(req.user);
-    const user = await User.findOne({ _id: req.user.id }).select("-password");
     res.status(200).json({
       success: true,
-      user: user,
+      user: req.user,
     });
   } catch (error) {
     next(error);
