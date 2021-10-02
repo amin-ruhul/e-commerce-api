@@ -36,7 +36,25 @@ const login = async (req, res, next) => {
   }
 };
 
+const logout = (req, res, next) => {
+  try {
+    req.headers.authorization = null;
+    res.cookie("token", null, {
+      expires: new Date(Date.now()),
+      httpOnly: true,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Logout successfully",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   login,
   loggedInUser,
+  logout,
 };
