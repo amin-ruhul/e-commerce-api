@@ -4,7 +4,7 @@ const tokenResponse = require("../utils/tokenResponse");
 const sendEmail = require("../utils/sendEmail");
 const crypto = require("crypto");
 
-// get logged in user
+// **********get logged in user**********
 const loggedInUser = async (req, res, next) => {
   try {
     res.status(200).json({
@@ -16,7 +16,7 @@ const loggedInUser = async (req, res, next) => {
   }
 };
 
-// login user
+// *********login user************
 const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -38,7 +38,7 @@ const login = async (req, res, next) => {
   }
 };
 
-// forget password middleware
+// *********forget password middleware***********
 
 const forgotPassword = async (req, res, next) => {
   try {
@@ -81,7 +81,7 @@ const forgotPassword = async (req, res, next) => {
   }
 };
 
-// reset password
+// **********reset password **************
 const resetPassword = async (req, res, next) => {
   try {
     const resetPasswordToken = crypto
@@ -116,7 +116,34 @@ const resetPassword = async (req, res, next) => {
   }
 };
 
-// logout user
+//******* update/change password ******
+
+const changePassword = async (req, res, next) => {
+  try {
+    const { email } = req.user;
+    const user = await User.findOne({ email });
+    if (!user) return next(new ErrorHandler("Login Require", 400));
+
+    const { oldPassword, password, confirmPassword } = req.body;
+
+    // check old password is match or not
+    const isMatch = await user.PasswordMatch(oldPassword);
+
+    if (!isMatch)
+      return next(new ErrorHandler("Old password is not Correct", 400));
+    if (password !== confirmPassword)
+      return next(new ErrorHandler("password is not match", 400));
+
+    // update and response
+    user.password = password;
+    await user.save();
+    tokenResponse(user, 200, res);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// *************logout user********
 
 const logout = (req, res, next) => {
   try {
@@ -141,4 +168,5 @@ module.exports = {
   logout,
   forgotPassword,
   resetPassword,
+  changePassword,
 };

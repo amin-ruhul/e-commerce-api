@@ -5,12 +5,15 @@ const ErrorHandler = require("../utils/ErrorHandler");
 // protected middleware
 const protect = async (req, res, next) => {
   try {
+    // check token existed or not
     let token;
     if (
       req.headers.authorization &&
       req.headers.authorization.startsWith("Bearer")
     ) {
       token = req.headers.authorization.split(" ")[1];
+    } else if (req.cookies.token) {
+      token = req.cookies.token;
     }
 
     if (!token) return next(new ErrorHandler("Not Authorize", 401));

@@ -6,6 +6,7 @@ const {
   logout,
   forgotPassword,
   resetPassword,
+  changePassword,
 } = require("../controllers/authController");
 const { protect } = require("../middlewares/auth");
 
@@ -22,6 +23,9 @@ route.post("/forgot/password", forgotPassword);
 
 // reset password route
 route.put("/reset/password/:token", resetPassword);
+
+// change password
+route.put("/change/password/", protect, changePassword);
 
 // load logged in user
 route.get("/", protect, loggedInUser);
