@@ -24,6 +24,18 @@ const globalErrorHandler = (err, req, res, next) => {
     error = new ErrorHandler(message, 400);
   }
 
+  // invalid jwt error
+  if (err.name === "JsonWebTokenError") {
+    const message = "Token is Invalid";
+    error = new ErrorHandler(message, 400);
+  }
+
+  // jwt expired error
+  if (err.name === "TokenExpiredError") {
+    const message = "Token is Expired";
+    error = new ErrorHandler(message, 400);
+  }
+
   error.statusCode = error.statusCode || 500;
   error.message = error.message || "Internal Server Error";
   res.status(error.statusCode).json({
