@@ -1,7 +1,6 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const ErrorHandler = require("../utils/ErrorHandler");
-const sendEmail = require("../utils/sendEmail");
 
 // protected middleware
 const protect = async (req, res, next) => {
@@ -35,47 +34,4 @@ const authorizeRole = (...roles) => {
   };
 };
 
-// forget password middleware
-
-const forgotPassword = async (req, res, next) => {
-  try {
-    const { email } = req.body;
-
-    const user = await User.findOne({ email });
-    if (!user) return next(new ErrorHandler("User Not found", 404));
-
-    // get reset token
-
-    const resetToken = user.getResetPasswordToken();
-    await user.save({ validateBeforeSave: false });
-
-    // create url
-    const resetUrl = `${req.protocol}://${req.get(
-      "host"
-    )}/uses/password/reset/${resetToken}`;
-
-    const message = `Your Reset Password Link:  ${resetUrl}`;
-
-    try {
-      await sendEmail({
-        email: user.email,
-        subject: "Ecom Password recovery",
-        message,
-      });
-
-      res.status(200).json({
-        success: true,
-        message: `Email send to : ${user.email}`,
-      });
-    } catch (error) {
-      user.resetPasswordToken = undefined;
-      user.restPasswordExpire = undefined;
-      await user.save({ validateBeforeSave: false });
-      return next(new ErrorHandler(error.message, 500));
-    }
-  } catch (error) {
-    next(error);
-  }
-};
-
-module.exports = { protect, authorizeRole, forgotPassword };
+module.exports = { protect, authorizeRole };

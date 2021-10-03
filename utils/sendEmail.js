@@ -17,6 +17,8 @@ const sendEmail = async (options) => {
     body: options.message,
   };
 
+  console.log(message);
+
   await transport.sendMail(message);
 };
 
