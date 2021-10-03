@@ -30,6 +30,31 @@ const registerUser = async (req, res, next) => {
   }
 };
 
+//********* update user*********** */
+
+const updateUser = async (req, res, next) => {
+  try {
+    const UpdatedUser = {
+      name: req.body.name,
+      email: req.body.email,
+    };
+
+    const user = await User.findByIdAndUpdate(req.user._id, UpdatedUser, {
+      new: true,
+      runValidators: true,
+      useFindAndModify: false,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "User Update Successfully",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   registerUser,
+  updateUser,
 };
