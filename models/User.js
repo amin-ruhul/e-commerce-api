@@ -33,7 +33,7 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    default: "User",
+    default: "user",
   },
   resetPasswordToken: String,
   restPasswordExpire: Date,
