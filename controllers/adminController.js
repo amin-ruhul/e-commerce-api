@@ -15,6 +15,24 @@ const getAllUsers = async (req, res, next) => {
   }
 };
 
+const getUserDetails = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    if (!id) return next(new ErrorHandler("User is is require", 400));
+
+    const user = await User.findById(id);
+    if (!user) return next(new ErrorHandler("User not found", 404));
+
+    res.status(200).json({
+      success: true,
+      user,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getAllUsers,
+  getUserDetails,
 };
