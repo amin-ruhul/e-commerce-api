@@ -32,7 +32,25 @@ const getUserDetails = async (req, res, next) => {
   }
 };
 
+const deleteUser = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) return next(new ErrorHandler("User not found", 404));
+
+    await user.remove();
+
+    // remove avatar
+
+    res.status(200).json({
+      success: true,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getAllUsers,
   getUserDetails,
+  deleteUser,
 };
