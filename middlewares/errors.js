@@ -4,7 +4,7 @@ const globalErrorHandler = (err, req, res, next) => {
   let error = { ...err };
   error.message = err.message;
 
-  console.log(error);
+  console.log(err);
 
   // id is not match error
   if (err.name === "CastError") {
