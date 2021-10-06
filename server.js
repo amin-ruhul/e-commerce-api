@@ -4,6 +4,7 @@ const cookieParser = require("cookie-parser");
 const productRoute = require("./routes/productRoute");
 const userRoute = require("./routes/userRoute");
 const adminRoute = require("./routes/adminRoute");
+const orderRoute = require("./routes/orderRoute");
 const DB_connection = require("./config/db");
 const globalErrorHandler = require("./middlewares/errors");
 
@@ -26,6 +27,7 @@ DB_connection();
 app.use("/api", productRoute);
 app.use("/api/user", userRoute);
 app.use("/api/admin", adminRoute);
+app.use("/api/order", orderRoute);
 
 // const config server
 const PORT = process.env.PORT || 5000;
