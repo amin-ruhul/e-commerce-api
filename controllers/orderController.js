@@ -7,7 +7,7 @@ const newOrder = async (req, res, next) => {
   try {
     const order = await Order.create({
       ...req.body,
-      paidAt: Date.now,
+      paidAt: Date.now(),
       user: req.user._id,
     });
 
