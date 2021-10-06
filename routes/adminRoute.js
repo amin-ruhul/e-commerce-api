@@ -7,6 +7,8 @@ const {
   updateUser,
 } = require("../controllers/adminController");
 
+const { allOrders } = require("../controllers/orderController");
+
 const { protect, authorizeRole } = require("../middlewares/auth");
 
 // get all user
@@ -20,5 +22,8 @@ route.put("/user/:id", protect, authorizeRole("admin"), updateUser);
 
 // delete user
 route.delete("/user/:id", protect, authorizeRole("admin"), deleteUser);
+
+// get total orders
+route.get("/orders", protect, authorizeRole("admin"), allOrders);
 
 module.exports = route;

@@ -52,8 +52,29 @@ const myOrder = async (req, res, next) => {
   }
 };
 
+// get all orders * admin route*
+
+const allOrders = async (req, res, next) => {
+  try {
+    const orders = await Order.find();
+    let total = 0;
+    orders.forEach((order) => {
+      total += order.totalPrice;
+    });
+
+    res.status(200).json({
+      success: true,
+      orders,
+      totalPrice: total,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   newOrder,
   singleOrder,
   myOrder,
+  allOrders,
 };
