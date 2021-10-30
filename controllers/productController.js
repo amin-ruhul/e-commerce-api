@@ -126,9 +126,9 @@ const createProductReview = async (req, res, next) => {
     }
 
     // check user is already given reviewed or not
-    const isReviewed = product.reviews.find((review) => {
-      review.user.toString() === req.user._id.toString();
-    });
+    const isReviewed = product.reviews.find(
+      (review) => review.user.toString() === req.user._id.toString()
+    );
 
     if (isReviewed) {
       product.reviews.forEach((review) => {
