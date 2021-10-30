@@ -169,6 +169,43 @@ const getProductReviews = async (req, res, next) => {
   }
 };
 
+// delete review
+const deleteReview = async (req, res, next) => {
+  try {
+    const product = await Product.findById(req.query.productId);
+
+    const reviews = product.reviews.filter(
+      (review) => review._id.toString() !== req.query.rId.toString()
+    );
+
+    const ratings =
+      product.reviews.reduce((acc, item) => item.rating + acc, 0) /
+      reviews.length;
+
+    const numOfReview = reviews.length;
+
+    await Product.findByIdAndUpdate(
+      req.query.productId,
+      {
+        reviews,
+        ratings,
+        numOfReview,
+      },
+      {
+        new: true,
+        runValidators: true,
+        useFindAndModify: true,
+      }
+    );
+
+    res.status(200).json({
+      success: true,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getProducts,
   InsertProduct,
@@ -177,4 +214,5 @@ module.exports = {
   deleteProduct,
   createProductReview,
   getProductReviews,
+  deleteReview,
 };

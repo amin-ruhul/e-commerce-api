@@ -8,6 +8,7 @@ const {
   deleteProduct,
   createProductReview,
   getProductReviews,
+  deleteReview,
 } = require("../controllers/productController");
 
 const { protect, authorizeRole } = require("../middlewares/auth");
@@ -35,5 +36,8 @@ route.put("/review/product", protect, createProductReview);
 
 // get reviews
 route.get("/reviews/product/:id", getProductReviews);
+
+// delete review
+route.delete("/review/product", deleteReview);
 
 module.exports = route;
