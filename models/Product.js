@@ -34,7 +34,7 @@ const productSchema = mongoose.Schema({
     type: String,
     required: [true, "Please Select Category"],
   },
-  rating: {
+  ratings: {
     type: Number,
     default: 0,
   },
@@ -50,9 +50,18 @@ const productSchema = mongoose.Schema({
   },
   reviews: [
     {
+      user: {
+        type: mongoose.Schema.ObjectId,
+        ref: "User",
+        required: true,
+      },
       name: {
         type: String,
         required: true,
+      },
+      rating: {
+        type: Number,
+        default: 0,
       },
       comment: {
         type: String,
