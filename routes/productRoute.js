@@ -17,19 +17,19 @@ const { protect, authorizeRole } = require("../middlewares/auth");
 const route = express.Router();
 
 //  get all product from database
-route.get("/products", protect, authorizeRole("admin"), getProducts);
+route.get("/products", getProducts);
 
 // get single product from database
 route.get("/product/:id", getSingleProduct);
 
 // insert product into database
-route.post("/product", protect, InsertProduct);
+route.post("/product", protect, authorizeRole("admin"), InsertProduct);
 
 // update product
-route.put("/product/:id", updateProduct);
+route.put("/product/:id", protect, authorizeRole("admin"), updateProduct);
 
 // delete product
-route.delete("/product/:id", deleteProduct);
+route.delete("/product/:id", protect, authorizeRole("admin"), deleteProduct);
 
 // add review
 route.put("/review/product", protect, createProductReview);
@@ -38,6 +38,6 @@ route.put("/review/product", protect, createProductReview);
 route.get("/reviews/product/:id", getProductReviews);
 
 // delete review
-route.delete("/review/product", deleteReview);
+route.delete("/review/product", protect, deleteReview);
 
 module.exports = route;
