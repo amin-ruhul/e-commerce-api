@@ -5,7 +5,8 @@ const APIFeatures = require("../utils/APIFeatures");
 // get all product from database
 const getProducts = async (req, res, next) => {
   try {
-    const resultPerPage = 3;
+    const resultPerPage = 8;
+    const productCount = await Product.countDocuments();
     const apiFeatures = new APIFeatures(Product.find(), req.query)
       .search()
       .filter()
@@ -15,6 +16,8 @@ const getProducts = async (req, res, next) => {
     res.status(200).json({
       success: true,
       data: products,
+      productCount,
+      resultPerPage,
     });
   } catch (error) {
     next(error);
