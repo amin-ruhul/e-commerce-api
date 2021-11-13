@@ -1,9 +1,17 @@
 const User = require("../models/User");
 const ErrorHandler = require("../utils/ErrorHandler");
 const tokenResponse = require("../utils/tokenResponse");
+const cloudinary = require("cloudinary");
 
 const registerUser = async (req, res, next) => {
   try {
+    // upload image into cloudinary
+    const upImage = await cloudinary.v2.uploader.upload(req.body.avatar, {
+      folder: "avatar",
+      width: 150,
+      crop: "scale",
+    });
+
     // check requirement
     const { name, email, password } = req.body;
     if (!password) return next(new ErrorHandler("Password require", 500));
@@ -18,8 +26,8 @@ const registerUser = async (req, res, next) => {
       email,
       password,
       avatar: {
-        public_id: "public/id123",
-        url: "https://randomuser.me/api/portraits/women/29.jpg",
+        public_id: upImage.public_id,
+        url: upImage.secure_url,
       },
     });
 

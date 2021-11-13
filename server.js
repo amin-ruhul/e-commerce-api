@@ -1,6 +1,9 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
+const bodyParser = require("body-parser");
+const cloudinary = require("cloudinary");
+const fileUpload = require("express-fileupload");
 const cookieParser = require("cookie-parser");
 const productRoute = require("./routes/productRoute");
 const userRoute = require("./routes/userRoute");
@@ -19,11 +22,20 @@ process.on("uncaughtException", (err) => {
 dotenv.config({ path: "./config/config.env" });
 const app = express();
 app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(cors());
+app.use(fileUpload);
 
 // database connection
 DB_connection();
+
+// config cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_Kay: process.env.API_KAY,
+  api_secret: process.env.API_SECRET,
+});
 
 // routes
 app.use("/api", productRoute);
