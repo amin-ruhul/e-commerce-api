@@ -6,11 +6,11 @@ const cloudinary = require("cloudinary");
 const registerUser = async (req, res, next) => {
   try {
     // upload image into cloudinary
-    // const upImage = await cloudinary.v2.uploader.upload(req.body.avatar, {
-    //   folder: "avatar",
-    //   width: 150,
-    //   crop: "scale",
-    // });
+    const upImage = await cloudinary.v2.uploader.upload(req.body.avatar, {
+      folder: "avatar",
+      width: 150,
+      crop: "scale",
+    });
 
     // check requirement
     const { name, email, password } = req.body;
@@ -35,6 +35,7 @@ const registerUser = async (req, res, next) => {
     tokenResponse(newUser, 200, res);
   } catch (error) {
     next(error);
+    console.log(error);
   }
 };
 
